@@ -1,4 +1,3 @@
-import { getProducts, Product } from '@stripe/firestore-stripe-payments'
 import Head from 'next/head'
 import { useRecoilValue } from 'recoil'
 import Banner from '../components/Banner'
@@ -6,6 +5,9 @@ import Header from '../components/Header'
 import { Movie } from '../typings'
 import requests from '../utils/requests'
 import Row from '../components/Row'
+import useAuth from '../hooks/useAuth'
+import { modalState } from '../atoms/modalAtoms'
+import Modal from '../components/Modal'
 
 interface Props {
   netflixOriginals: Movie[]
@@ -16,7 +18,6 @@ interface Props {
   horrorMovies: Movie[]
   romanceMovies: Movie[]
   documentaries: Movie[]
-  products: Product[]
 }
 
 const Home = ({
@@ -29,10 +30,13 @@ const Home = ({
   topRated,
   trendingNow,
 }: Props) => {
+  const { loading } = useAuth()
+  const showModal = useRecoilValue(modalState)
+
+  if (loading) return null
+
   return (
-    <div
-      className="relative h-screen bg-gradient-to-b lg:h-[140vh]"
-    >
+    <div className="relative h-screen bg-gradient-to-b lg:h-[140vh]">
       <Head>
         <title>Home - Netflix</title>
         <link rel="icon" href="/favicon.ico" />
@@ -52,6 +56,7 @@ const Home = ({
           <Row title="Documentaries" movies={documentaries} />
         </section>
       </main>
+      {showModal && <Modal />}
     </div>
   )
 }
