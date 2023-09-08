@@ -54,7 +54,7 @@ import {
             movie?.media_type === 'tv' ? 'tv' : 'movie'
           }/${movie?.id}?api_key=${
             process.env.NEXT_PUBLIC_API_KEY
-          }&language=en-US&append_to_response=videos`
+          }&language=es-ES&append_to_response=videos`
         )
           .then((response) => response.json())
           .catch((err) => console.log(err.message))
